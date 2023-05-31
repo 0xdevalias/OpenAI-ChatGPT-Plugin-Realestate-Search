@@ -1,5 +1,5 @@
 const express = require('express');
-
+const fetch = require("node-fetch");
 const randomUserAgents = [
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"
 ];
@@ -188,7 +188,7 @@ class RealestateComAu {
     };
 
     const listings = await this._scroll(
-      "",
+      {},
       "POST",
       parseItems,
       nextPage,
@@ -253,8 +253,8 @@ class RealestateComAu {
         agent: options.agent,
         compress: options.compress,
         timeout: options.timeout,
-        followRedirects: options.followRedirects,
-        proxy: options.proxies
+        follow: options.followRedirects,
+        agentOptions: options.proxies
       });
 
       const json = await response.json();
@@ -278,8 +278,8 @@ class RealestateComAu {
         agent: options.agent,
         compress: options.compress,
         timeout: options.timeout,
-        followRedirects: options.followRedirects,
-        proxy: options.proxies
+        follow: options.followRedirects,
+        agentOptions: options.proxies
       });
 
       const json = await response.json();
@@ -291,6 +291,9 @@ class RealestateComAu {
   }
 }
 
+const app = express();
+app.get('/', (req, res) => {
+const realestate = new RealestateComAu();
 const searchParams = {
   limit: 10,
   start_page: 1,
@@ -302,9 +305,6 @@ const searchParams = {
   max_bedrooms: 4
 };
 
-const app = express();
-app.get('/', (req, res) => {
-const realestate = new RealestateComAu();
 realestate.search(searchParams)
   .then(listings => {
     res.send(listings);
