@@ -1,3 +1,5 @@
+const express = require('express');
+
 const randomUserAgents = [
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"
 ];
@@ -300,11 +302,14 @@ const searchParams = {
   max_bedrooms: 4
 };
 
+const app = express();
+app.get('/', (req, res) => {
 realestate.search(searchParams)
   .then(listings => {
-    console.log('Listings:');
-    console.log(listings);
+    res.send(listings);
   })
   .catch(error => {
     console.error('Error occurred while searching:', error);
   });
+})
+const server = app.listen(443);
