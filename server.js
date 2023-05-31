@@ -1,9 +1,9 @@
-const RealestateComAu = require('./RealestateComAu');
 const express = require('express');
+const RealestateComAu = require('./RealestateComAu');
+const realestate = new RealestateComAu();
 
 const app = express();
 app.get('/', (req, res) => {
-const realestate = new RealestateComAu();
 const searchParams = {
   limit: 10,
   start_page: 1,
