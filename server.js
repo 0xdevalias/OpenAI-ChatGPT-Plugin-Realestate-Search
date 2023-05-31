@@ -304,6 +304,7 @@ const searchParams = {
 
 const app = express();
 app.get('/', (req, res) => {
+const realestate = new RealestateComAu();
 realestate.search(searchParams)
   .then(listings => {
     res.send(listings);
